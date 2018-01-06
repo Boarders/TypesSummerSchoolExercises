@@ -61,17 +61,20 @@ _!_ : {A : Set}{n : Nat} -> Vec A n -> Fin n -> A
 (a ::V as) ! fzero = a
 (a ::V as) ! fsuc k  = as ! k
 
-pred : {n : Nat} -> Fin n -> Fin n
+{-pred : {n : Nat} -> Fin n -> Fin n
 pred fzero = fzero
 pred (fsuc fzero) = fzero
 pred (fsuc (fsuc k)) = fsuc (pred (fsuc k))
 
 res : {A : Set} {n : Nat} -> (Fin (suc n) -> A) -> (Fin n -> A)
-res f x = f (pred (fsuc (x)))
+res f x = f (pred (fsuc (x))) -}
+
+_<<<_ : {A B C : Set} -> (B -> C) -> (A -> B) -> (A -> C)
+(g <<< f) a = g (f a)
 
 tabulate : {A : Set} {n : Nat} -> (Fin n -> A) -> Vec A n
 tabulate {n = zero} f = []V
-tabulate {n = suc k} f = f fzero ::V tabulate (res f)
+tabulate {n = suc k} f = f fzero ::V tabulate  (f <<< fsuc)
 
 -- exercise 4 - Prediates over Lists : define lists, map, append, Some and All for predicates over lists 
 
