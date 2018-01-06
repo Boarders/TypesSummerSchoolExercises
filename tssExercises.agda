@@ -61,17 +61,13 @@ _!_ : {A : Set}{n : Nat} -> Vec A n -> Fin n -> A
 (a ::V as) ! fzero = a
 (a ::V as) ! fsuc k  = as ! k
 
-max : {n : Nat} -> Fin (suc n)
-max {n = zero} = fzero
-max {n = suc n} = fsuc (max {n})
-
 pred : {n : Nat} -> Fin n -> Fin n
-pred fzero = max
-pred (fsuc k) = fsuc (pred k) 
+pred fzero = fzero
+pred (fsuc fzero) = fzero
+pred (fsuc (fsuc k)) = fsuc (pred (fsuc k))
 
 res : {A : Set} {n : Nat} -> (Fin (suc n) -> A) -> (Fin n -> A)
-res f fzero = f fzero
-res f (fsuc x) = f (fsuc (fsuc (pred x)))
+res f x = f (pred (fsuc (x)))
 
 tabulate : {A : Set} {n : Nat} -> (Fin n -> A) -> Vec A n
 tabulate {n = zero} f = []V
